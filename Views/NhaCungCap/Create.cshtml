@@ -1,0 +1,33 @@
+﻿@model NhaCungCap
+<div class="container">
+    <h3> Nhà Cung Cấp</h3>
+    <form method="post">
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <lable asp-for="Name">Tên</lable>
+            <input asp-for="Name" type="text" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <lable asp-for="DiaChi">Địa Chỉ</lable>
+            <input asp-for="DiaChi" type="text" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <lable asp-for="SDT">SĐT</lable>
+            <input asp-for="SDT" type="text" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Tạo mới</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -1,0 +1,108 @@
+﻿@model IEnumerable<SanPham>
+<div class="container">
+     <div  class="row">
+         <div class="col-12">
+             <div class="row">
+                 <div class="col-12">
+                     <div>
+                         <input type="text" placeholder="Tìm Kiếm ở đây...." id="txtSearch" class="form-control m-1 float-end" style="width:50%;"/>
+                     </div>
+
+                 </div>
+
+             </div>
+             
+         </div>
+         @*<form method="get" asp-action="Index">
+             <p>
+                <input type="search" placeholder="Enter ....." value="@ViewData["Getemployeedetails"]" name="Empsearch" style="width:500px;" />
+                 <input type="submit" value="Search" class="btn btn-primary"/>
+                 <a asp-action="Index">Get</a>
+             </p>
+         </form>*@
+     
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th>Tên Game</th>
+                <th>Tập</th>
+                <th>Gía Tiền</th>
+                <th>Hình Anh</th>
+                <th>Mô Tả</th>
+                <th>Chức Năng</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tbody>
+                <tr style="color:white">
+                    <td class="col-sm-2">@item.Name</td>
+                    <td class="col-sm-2">@item.Description</td>
+                    <td class="col-sm-2">@item.Price</td>
+                    <td class="col-sm-2"><img width="50%" src="@item.ImageUrl" /></td>
+                    <td class="col-sm-2 ">@item.TheLoai.Name</td>
+                    <td >
+
+                        <a asp-action="Upsert" asp-route-id="@item.Id" class="btn btn-xs btn-warning text-right">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a> 
+                        <a href="#" class="btn btn-xs btn-info">
+                            <i class="fa fa-info" aria-hidden="true"></i>
+                        </a>
+                        @*<a href="#">Delete</a> *@
+                        @*<a class=" btn btn-xs btn-danger" onclick="xoa(@item.Id, $(this))">
+                            <i class="fa fa-trash" aria-hidden="true"></i></a>*@
+                        <a class="btn btn-xs btn-danger" onclick="xoa(@item.Id, $(this))"><i class="fa fa-trash" aria-hidden="true"></i></a>
+
+                    </td>
+                </tr>
+            </tbody>
+        }
+    </table>
+    <a asp-controller="SanPham" asp-action="Upsert" class="btn btn-primary">Thêm Mới</a>
+    
+@*--------------------------------------------------------------------------------------*@
+    <!-- Button trigger modal -->
+    <button type="button" id="showModalBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        test
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cảnh Báo</h5>
+                    <button type="button" id="closeBtn" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button> 
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc không?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="MaincloseBtn" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a asp-controller="SanPham" asp-action="Upsert" type="button" class="btn btn-primary">Có</a>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>  
+</div>
+@*--------------------------------------------------------------------------------------*@
+<script>
+    function xoa(id, row){
+        $.ajax(
+            {
+                url:`../SanPham/Delete/${id}`,
+                type: "POST",
+                success: function(data){
+                    row.closest("tr").remove();
+                }
+            }
+        )
+    }
+</script>
+@section scripts{
+    <script src="/js/site.js"></script>
+}

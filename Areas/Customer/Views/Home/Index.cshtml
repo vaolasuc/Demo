@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <img SRC ="../images/person_1.JPG" />
+    
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@ViewBag.Nghia
+@ViewBag.Nghia1
+@ViewData["Nam"]
+@Model.Id- @Model.Name*@
+@model IEnumerable<SanPham>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tên Truyện</th>
+                <th>Tập</th>
+                <th>Gía Tiền</th>
+                <th>Hình Anh</th>
+                <th>Mô Tả</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @Model)
+            {
+                <tr>
+                    <td class="col-sm-2">@item.Name</td>
+                    <td class="col-sm-2">@item.Description</td>
+                    <td class="col-sm-2">@item.Price</td>
+                    <td class="col-sm-2">
+                        <a asp-action="Details" asp-route-sanphamId="@item.Id">
+                            <img src="@item.ImageUrl" width="50%" alt="Product image" class="product-image"></img>
+                        </a>
+                    </td>
+                    <td class="col-sm-2">@item.TheLoai.Name</td>
+                    <h3 class="product-title">
+                        <a asp-action="Details" asp-route-sanphamId="@item.Id">@item.Name</a>
+                    </h3>
+                </tr>
+            }
+            
+        </tbody>
+    </table>
+</div>

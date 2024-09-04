@@ -1,0 +1,26 @@
+﻿@model IEnumerable<TheLoai>
+@*<li>
+    <a href="#" class="sf-with-ul ">shop</a>
+  <span>
+    <ul class="">
+        @foreach (var item in Model)
+        {
+            <li><a href="#">@item.Name</a></li>
+        }
+    </ul>
+    </span>
+</li>*@
+<div class="dropdown  ">
+    <a style="color:white; background:#343a40;padding:5px;" class=" dropdown-toggle nav-link custom-navbar navbar  navbar-expand-md  bg-dark" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Thể Loại
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        @foreach (var item in Model)
+        {
+            <a class="dropdown-item" href="#">@item.Name</a>
+        }
+    
+        
+    </div>
+</div>

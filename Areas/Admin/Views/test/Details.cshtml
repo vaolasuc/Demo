@@ -1,0 +1,28 @@
+﻿@model TheLoai
+<div class="container">
+    <h3>Thông Tin Thể Loại</h3>
+    <form method="post">
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <lable asp-for="Name">Tên thể loại</lable>
+            <input asp-for="Name" type="text" disabled class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <lable asp-for="DateCreated">Ngày Tạo </lable>
+            <input asp-for="DateCreated" type="date" disabled class="form-control" />
+            <span asp-validation-for="DateCreated" class="text-danger"></span>
+        </div>
+
+        
+        <a asp-action="Index" class="btn btn-secondary">Quay Về</a>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

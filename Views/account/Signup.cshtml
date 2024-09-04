@@ -1,0 +1,38 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model AccountViewModel
+
+
+<h3> Đây là trang sign up </h3>
+    <div class="container">
+        <h3>Đăng ký</h3>
+        <form method="post">
+            <label asp-for="Username">Username: </label>
+            <input asp-for="Username" type="text" class="form-control requited="requited"/>
+
+            <label asp-for="Password">Password: </label>
+            <input asp-for="Password" type="password" class="form-control required = "required"/>
+            
+            <label asp-for="Hoten">Họ Tên: </label>
+            <input asp-for="Hoten" class="form-control" />
+
+            <label asp-for="Tuoi"> Tuoi: </label>
+            <input asp-for="Tuoi" class="form-control"/>
+            <button type="submit" class="btn btn-primary">Đăng Ký</button>
+        </form>
+       @* note
+           dùng ~/assets để có ảnh trong đường dẫn (href) 
+           wwwroot = ~
+           dùng crt + h thay thế cho nhanh nhưng bóp khi sai
+           dùng @renderBody()  để thay thế phần main
+           viết code trong views -> Shared -> _layout
+           url thì dùng ../
+           /////////
+           thêm 1 acction  giỏ hàng và add view cho nó
+           logo : /Home/ Index
+       *@
+
+    </div>

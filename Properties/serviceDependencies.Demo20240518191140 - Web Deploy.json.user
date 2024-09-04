@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "restored": true,
+      "restoreTime": "2024-05-18T12:18:24.6950146Z"
+    }
+  },
+  "parameters": {
+    "Demo20240518191140.resourceGroupName": {
+      "Name": "Demo20240518191140.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "ECommerceMVC20240509215503ResourceGroup"
+    },
+    "Demo20240518191140.resourceName": {
+      "Name": "Demo20240518191140.resourceName",
+      "Type": null,
+      "Value": "Demo20240518191140"
+    },
+    "Demo20240518191140.resourceGroupLocation": {
+      "Name": "Demo20240518191140.resourceGroupLocation",
+      "Type": null,
+      "Value": "eastus"
+    },
+    "Demo20240518191140.subscriptionId": {
+      "Name": "Demo20240518191140.subscriptionId",
+      "Type": "subscription",
+      "Value": "d908d7b8-9018-4187-a51a-a2731ac66a6d"
+    }
+  }
+}

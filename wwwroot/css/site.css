@@ -1,0 +1,386 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+    text-decoration: none;
+    list-style: none;
+}
+
+body {
+    background: url(yae.JPG);
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    background-position: center;
+}
+
+.body1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.box {
+    position: relative;
+    width: 380px;
+    height: 500px;
+    background: white;
+    border-radius: 8px;
+}
+
+    .box form {
+        position: absolute;
+        inset: 4px;
+        padding: 50px 40px;
+        border-radius: 8px;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        background-image: linear-gradient(0deg, #ff2851 8%, #137fc5 89%) !important;
+    }
+
+        .box form h2 {
+            color: #fff;
+            font-weight: 500;
+            text-align: center;
+            letter-spacing: 0.1em;
+        }
+
+        .box form .inputBox {
+            position: relative;
+            width: 300px;
+            margin-top: 35px;
+        }
+
+            .box form .inputBox input {
+                position: relative;
+                width: 100%;
+                padding: 20px 10px 10px;
+                background: transparent;
+                outline: none;
+                border: none;
+                box-shadow: none;
+                color: #23242a;
+                font-size: 1em;
+                letter-spacing: 0.05em;
+                transition: 0.5s;
+                z-index: 10;
+            }
+
+            .box form .inputBox span {
+                position: absolute;
+                left: 0;
+                padding: 20px 0px 10px;
+                pointer-events: none;
+                color: #8f8f8f;
+                font-size: 1em;
+                letter-spacing: 0.05em;
+                transition: 0.5s;
+            }
+
+            .box form .inputBox input:valid ~ span,
+            .box form .inputBox input:focus ~ span {
+                color: #fff;
+                font-size: 0.75em;
+                transform: translateY(-34px);
+            }
+
+            .box form .inputBox i {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 2px;
+                background: #fff;
+                border-radius: 4px;
+                overflow: hidden;
+                transition: 0.5s;
+                pointer-events: none;
+            }
+
+            .box form .inputBox input:valid ~ i,
+            .box form .inputBox input:focus ~ i {
+                height: 44px;
+            }
+
+        .box form .links {
+            display: flex;
+            justify-content: space-between;
+        }
+
+
+            .box form .links a {
+                margin: 10px 0;
+                font-size: 0.75em;
+                color: #8f8f8f;
+                text-decoration: none;
+            }
+
+                .box form .links a:hover,
+                .box form .links a:hover {
+                    color: #fff;
+                }
+
+        .box form input[type="submit"] {
+            border: 2px solid white;
+            outline: none;
+            padding: 9px 25px;
+            background-image: linear-gradient(0deg, #ff2851 8%, #137fc5 89%) !important;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 400;
+            margin-top: 10px;
+        }
+
+            .box form input[type="submit"]:active {
+                opacity: 0.8;
+            }
+
+.inputf {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    color: #fff;
+}
+
+
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    padding: 12px 12%;
+    transition: all .50s ease;
+    background-image: -webkit-linear-gradient(0deg, #137fc5 8%, #ff2851 89%) !important;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+    .logo i {
+        color: White;
+        font-size: 28px;
+        margin-right: 3px;
+    }
+
+    .logo span {
+        color: white;
+        font-size: 1.7rem;
+        font-weight: 600;
+    }
+
+.navbar {
+    display: flex;
+}
+
+    .navbar a {
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 5px 0;
+        margin: 0px 30px;
+        transition: all .50s ease;
+    }
+
+        .navbar a:hover {
+            color: white;
+        }
+
+        .navbar a.active {
+            color: white;
+        }
+
+.main {
+    display: flex;
+    align-items: center;
+}
+
+    .main a {
+        margin-right: 25px;
+        margin-left: 10px;
+        color: White;
+        font-size: 1.1rem;
+        font-weight: 500;
+        transition: all .50s ease;
+    }
+
+.user {
+    display: flex;
+    align-items:
+}
+
+    .user i {
+        color: white;
+        margin-right: 7px;
+    }
+
+.main a:hover {
+    color: white;
+}
+
+#menu-icon {
+    font-size: 35px;
+    color: white;
+    cursor: pointer;
+    z-index: 10001;
+    display: none;
+}
+
+@media(max-width:1280px) {
+    header {
+        padding: 14px 2%;
+        transition: .2s;
+    }
+
+    .navbar a {
+        padding: 5px 0;
+        margin: 0px 20px;
+    }
+}
+
+@media(max-width:1090px) {
+    #menu-icon {
+        display: block;
+    }
+
+    .navbar {
+        position: absolute;
+        top: 100%;
+        right: -100%;
+        width: 270px;
+        height: 29vh;
+        background-image: -webkit-linear-gradient(0deg, #137fc5 8%, #ff2851 89%) !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        border-radius: 10px;
+        transition: all .50s ease;
+    }
+
+        .navbar a {
+            display: block;
+            margin: 12px 0;
+            padding: 0px 25px;
+            transition: all .50s ease;
+        }
+
+            .navbar a:hover {
+                color: white;
+                transform: translateY(5px);
+            }
+
+            .navbar a.active {
+                color: white;
+            }
+
+        .navbar.open {
+            right: 2%;
+        }
+}
+
+.navbar li a {
+    position: relative;
+    font-size: 1.1em;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 50px;
+}
+
+    .navbar li a::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -6px;
+        width: 100%;
+        height: 3px;
+        background: white;
+        border-radius: 5px;
+        transform: scaleX(0);
+        transition: transform.5s;
+    }
+
+    .navbar li a:hover:after {
+        transform: scaleX(1);
+    }
+
+
+
+
+
+.form p, .checkbox-content label,
+.input-field::placeholder {
+    color: rgb(255,255,255);
+}
+
+.checkbox-content {
+    position: relative;
+    padding-top: 20px;
+}
+
+.icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .icons p {
+        margin: 15px 15px;
+        text-align: center;
+    }
+
+    .icons i {
+        color: #b5b1b1;
+        margin: 0 10px;
+        transition: 0.75em;
+        font-size: 30px;
+        cursor: pointer;
+    }
+
+        .icons i:hover {
+            color: #fff;
+        }
+
+.textchu {
+    color: #fff;
+}
+
+:root {
+    --bg-color: 222372;
+    --text-color: #fff;
+    --main-color: #29fd53;
+}

@@ -1,0 +1,28 @@
+﻿<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tên</th>
+                <th>Địa Chỉ</th>
+                <th>SĐT</th>
+                <th>Chức Năng</th>
+            </tr>
+        </thead>
+        @foreach (var item in @ViewBag.nhaCungCaps)
+        {
+            <tbody>
+                <tr>
+                    <td width="20%">@item.Name</td>
+                    <td width="20%">@item.DiaChi</td>
+                    <td width="20%">@item.SDT</td>  
+                    
+                    <td width="40%">
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>|
+                        
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        }
+    </table>
+</div>

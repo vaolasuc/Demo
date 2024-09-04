@@ -1,0 +1,129 @@
+﻿@*@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CSS Template</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">*@
+@*<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the header */
+header {
+  background-color: #666;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  color: white;
+}
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+  float: left;
+  width: 30%;
+  height: 300px; /* only for demonstration, should be removed */
+  background: #ccc;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 70%;
+  background-color: #f1f1f1;
+  height: 300px; /* only for demonstration, should be removed */
+}
+
+/* Clear floats after the columns */
+section::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+@*}
+
+</style>
+</head>
+<body>*@
+    
+@*<header>
+  <h2>Bài Tập 1</h2>
+</header>
+
+<section>
+  <nav>
+    <h1>Phạm Trọng Nghĩa</h1>
+    <h1>Mssv : 1721030862 </h1>
+  </nav>
+  
+  <article>
+	<img src="meo.png">
+  </article>
+</section>
+
+<footer>
+  <p>@@Copyright Phạm Trọng Nghĩa - 2003	</p>
+</footer>*@
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tên Thể Loại</th>
+                <th>Ngày Tạo</th>
+                <th>Chức Năng</th>
+            </tr>
+        </thead>
+        @foreach (var item in @ViewBag.tentheloai)
+            {
+                <tbody>
+                    <tr>
+                        <td width="30%">@item.Name</td>
+                        <td width="50%">@String.Format("{0:dd//MM//yyyy}",item.DateCreated)</td>
+                        <td width="40%"><a asp-action="Edit" asp-route-id="@item.Id">Edit</a>|
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>|
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+</div>
+@*
+    Bài 2
+*@
+
+
+
+@*</body>
+</html>*@
+
