@@ -237,6 +237,7 @@
 
                                     <tr>
                                         <td style="border-top:none">
+                                            <input id="order_id" hidden value="@(ViewBag.OrderId)" />
                                             <div id="notification-container"></div>
                                             <div id="paypal-button-container"></div>
                                         </td>
@@ -538,6 +539,19 @@
 <script>
     let paypalButton = paypal.Buttons({
         createOrder: function (data, actions) {
+            fetch("/Customer/GioHang/PaypalCheckout", {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    amount: document.getElementById("totalAmount").innerText
+                })
+            }).then(res => res.json())
+                .then(data => data)
+                .catch(err => console.log(err)); 
+
+
             return fetch("/Checkout/CreateOrder", {
                 method: 'POST',
                 headers: {
@@ -549,7 +563,9 @@
             }).then(function (res) {
                 return res.json();
             }).then(function (orderData) {
-                return orderData.id;
+                if (orderData && orderData.id && document.getElementById("order_id")) {
+                    document.getElementById("order_id").value = orderData.id
+                }
             });
         },
         // Thành công
@@ -561,7 +577,7 @@
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    orderID: data.orderID
+                    orderID: document.getElementById("order_id")?.value
                 })
             }).then(function (res) {
                 return res.json();

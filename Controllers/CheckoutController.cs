@@ -109,6 +109,7 @@ namespace Demo.Controllers
             };
 
             return new JsonResult(response);
+            
         }
 
         [HttpPost]
@@ -152,7 +153,7 @@ namespace Demo.Controllers
                             var identity = (ClaimsIdentity)User.Identity;
                             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
                             //cập nhật thông tin danh sách giỏ hàng và hóa đơn
-                            var hoadong = _db.HoaDon.Where(hd => hd.ApplicationUserId == claim.Value).ToList();
+                            var hoadong = _db.HoaDon.Where(hd => hd.Id.ToString() == orderId).ToList();
 
                             hoadong[0].OrderStatus = "Đã thanh toán";
 

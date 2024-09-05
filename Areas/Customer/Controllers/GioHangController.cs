@@ -128,6 +128,7 @@ namespace Demo.Areas.Customer.Controllers
             }
 
             ViewBag.PaypalClientId = PaypalClientId;
+            ViewBag.OrderId = giohang.HoaDon.Id;
             return View(giohang);
         }
         [HttpPost]
@@ -170,6 +171,50 @@ namespace Demo.Areas.Customer.Controllers
             _db.GioHang.RemoveRange(giohang.DsGioHang);
             _db.SaveChanges();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public JsonResult PaypalCheckout(GioHangViewModel giohang)
+        {
+
+
+            //lấy thông tin tài khoản
+            var identity = (ClaimsIdentity)User.Identity;
+            var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+            //cập nhật thông tin danh sách giỏ hàng và hóa đơn
+            giohang.DsGioHang = _db.GioHang.Include("SanPham").Where(gh => gh.ApplicationUserId == claim.Value).ToList();
+            giohang.HoaDon.ApplicationUserId = claim.Value;
+            giohang.HoaDon.OrderDate = DateTime.Now;
+            giohang.HoaDon.OrderStatus = "Đang Xác Nhận";
+            foreach (var item in giohang.DsGioHang)
+            {
+                //tính tiền sản phẩm theo số lượng
+                item.ProductPrice = item.Quantity * item.SanPham.Price;
+                //cộng dồn số tiền trong giỏ hàng
+                giohang.HoaDon.Total += item.ProductPrice;
+            }
+            _db.HoaDon.Add(giohang.HoaDon);
+            _db.SaveChanges();
+            //thêm thông tin chi tiết hóa đơn
+            foreach (var item in giohang.DsGioHang)
+            {
+                ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon()
+                {
+                    SanPhamId = item.SanPhamId,
+                    HoaDonId = giohang.HoaDon.Id,
+                    ProductPrice = item.ProductPrice,
+                    Quantity = item.Quantity
+                };
+                _db.ChiTietHoaDon.Add(chiTietHoaDon);
+                _db.SaveChanges();
+            }
+            // xóa thông tin trong giỏ hàng
+            _db.GioHang.RemoveRange(giohang.DsGioHang);
+            _db.SaveChanges();
+            return new JsonResult(new
+            {
+                orderId = giohang.HoaDon.Id
+            });
         }
 
         public IActionResult Checkout()
