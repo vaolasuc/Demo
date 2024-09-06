@@ -8,6 +8,7 @@ using Demo.Data;
 using Demo.Data.Migrations;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using HoaDonModel = Demo.Models.HoaDon;
 
 namespace Demo.Controllers
 {
@@ -40,11 +41,14 @@ namespace Demo.Controllers
         [HttpPost]
         public async Task<JsonResult> CreateOrder([FromBody] JsonObject data)
         {
-            var deliveryAddress = "1234 Main St";
+
+            var deliveryAddress = data?["address"];
             var totalAmount = data?["amount"]?.ToString();
             var productIdentifiers = "1";
+            var deliveryPhoneNumber = data?["phone_number"];
+            var deliveryName = data?["name"];
 
-            if (deliveryAddress == null || totalAmount == null || productIdentifiers == null)
+            if (deliveryAddress == null || deliveryPhoneNumber == null || totalAmount == null || deliveryName == null)
             {
                 return new JsonResult(new {Id = ""});
             }
@@ -103,9 +107,60 @@ namespace Demo.Controllers
             }
 
             // Handle form submission
+
+
+            //lấy thông tin tài khoản
+            var identity = (ClaimsIdentity)User.Identity;
+            var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+
+            GioHangViewModel giohang = new GioHangViewModel()
+            {
+                DsGioHang = _db.GioHang.Include("SanPham").Where(gh => gh.ApplicationUserId == claim.Value).ToList(),
+                HoaDon = new HoaDonModel()
+            };
+            foreach (var item in giohang.DsGioHang)
+            {
+                //TÍNH TIỀN THEO SỐ LƯỢNG SẢN PHẨM
+                item.ProductPrice = item.Quantity * item.SanPham.Price;
+                // Tính tổng số tiền trong giỏ hàng
+                giohang.HoaDon.Total += item.ProductPrice;
+            }
+            //cập nhật thông tin danh sách giỏ hàng và hóa đơn
+            //giohang.DsGioHang = _db.GioHang.Include("SanPham").Where(gh => gh.ApplicationUserId == claim.Value).ToList();
+            giohang.HoaDon.ApplicationUserId = claim.Value;
+            giohang.HoaDon.OrderDate = DateTime.Now;
+            giohang.HoaDon.OrderStatus = "Đang Xác Nhận";
+            giohang.HoaDon.Address = deliveryAddress.ToString();
+            giohang.HoaDon.Name = deliveryName.ToString();
+            giohang.HoaDon.PhoneNumber = deliveryPhoneNumber.ToString();
+            foreach (var item in giohang.DsGioHang)
+            {
+                //tính tiền sản phẩm theo số lượng
+                item.ProductPrice = item.Quantity * item.SanPham.Price;
+                //cộng dồn số tiền trong giỏ hàng
+                giohang.HoaDon.Total += item.ProductPrice;
+            }
+            _db.HoaDon.Add(giohang.HoaDon);
+            _db.SaveChanges();
+            //thêm thông tin chi tiết hóa đơn
+            foreach (var item in giohang.DsGioHang)
+            {
+                ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon()
+                {
+                    SanPhamId = item.SanPhamId,
+                    HoaDonId = giohang.HoaDon.Id,
+                    ProductPrice = item.ProductPrice,
+                    Quantity = item.Quantity
+                };
+                _db.ChiTietHoaDon.Add(chiTietHoaDon);
+                _db.SaveChanges();
+            }
+            // xóa thông tin trong giỏ hàng
+            _db.GioHang.RemoveRange(giohang.DsGioHang);
+            _db.SaveChanges();
             var response = new
             {
-                Id = orderId
+                Id = giohang.HoaDon.Id
             };
 
             return new JsonResult(response);
@@ -173,6 +228,46 @@ namespace Demo.Controllers
             };
 
             return new JsonResult(response);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> CancelOrder([FromBody] JsonObject data)
+        {
+            if (data == null || data["orderID"] == null) return new JsonResult("error");
+
+            var orderId = data["orderID"]!.ToString();
+           
+
+            var identity = (ClaimsIdentity)User.Identity;
+            var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+                            //cập nhật thông tin danh sách giỏ hàng và hóa đơn
+            var hoadong = _db.HoaDon.Where(hd => hd.Id.ToString() == orderId).ToList();
+
+            hoadong[0].OrderStatus = "Đã hủy";
+
+            _db.SaveChanges();
+            return new JsonResult("success");
+                      
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ErrorOrder([FromBody] JsonObject data)
+        {
+            if (data == null || data["orderID"] == null) return new JsonResult("error");
+
+            var orderId = data["orderID"]!.ToString();
+
+
+            var identity = (ClaimsIdentity)User.Identity;
+            var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+            //cập nhật thông tin danh sách giỏ hàng và hóa đơn
+            var hoadong = _db.HoaDon.Where(hd => hd.Id.ToString() == orderId).ToList();
+
+            hoadong[0].OrderStatus = "Lỗi";
+
+            _db.SaveChanges();
+            return new JsonResult("success");
+
         }
 
         public async Task<string> Token()

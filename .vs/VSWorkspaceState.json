@@ -1,9 +1,14 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Controllers",
-    "\\Models"
+    "\\.config",
+    "\\Areas",
+    "\\Areas\\Customer",
+    "\\Areas\\Customer\\Controllers",
+    "\\Areas\\Customer\\Views",
+    "\\Areas\\Customer\\Views\\GioHang",
+    "\\Controllers"
   ],
-  "SelectedNode": "\\Controllers\\PaymentController.cs",
+  "SelectedNode": "\\Demo.csproj.user",
   "PreviewInSolutionExplorer": false
 }

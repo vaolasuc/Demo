@@ -31,7 +31,7 @@
                         <label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to
                                 enter your code</span></label>
                     </div><!-- End .checkout-discount -->
-                    <form action="ThanhToan" method="post">
+                    <form action="ThanhToan" method="post" id="form-checkout" name="form-checkout">
                         @Html.AntiForgeryToken()
                         <div class="row">
                             <div class="col-lg-9">
@@ -39,12 +39,12 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <label>First Name *</label>
-                                        <input asp-for="HoaDon.Name" type="text" class="form-control" required>
+                                        <input id="first-name" asp-for="HoaDon.Name" type="text" class="form-control" required>
                                     </div><!-- End .col-sm-6 -->
 
                                     <div class="col-sm-6">
                                         <label>Last Name *</label>
-                                        <input type="text" class="form-control" required>
+                                        <input id="last-name" type="text" class="form-control" required>
                                     </div><!-- End .col-sm-6 -->
                                 </div><!-- End .row -->
                                 <label>Company Name (Optional)</label>
@@ -52,7 +52,7 @@
                                 <label>Country *</label>
                                 <input type="text" class="form-control" required>
                                 <label>Street address *</label>
-                                <input asp-for="HoaDon.Address" type="text" class="form-control"
+                                <input id="address" asp-for="HoaDon.Address" type="text" class="form-control"
                                     placeholder="House number and Street name" required>
                                 <input asp-for="HoaDon.Address" type="text" class="form-control"
                                     placeholder="Appartments, suite, unit etc ..." required>
@@ -73,7 +73,7 @@
                                     </div><!-- End .col-sm-6 -->
                                     <div class="col-sm-6">
                                         <label>Phone *</label>
-                                        <input asp-for="HoaDon.PhoneNumber" type="tel" class="form-control" required>
+                                        <input id="phone-number" asp-for="HoaDon.PhoneNumber" type="tel" class="form-control" required>
                                     </div><!-- End .col-sm-6 -->
                                 </div><!-- End .row -->
                                 <label>Email address *</label>
@@ -237,9 +237,10 @@
 
                                     <tr>
                                         <td style="border-top:none">
-                                            <input id="order_id" hidden value="@(ViewBag.OrderId)" />
+                                            <input id="order_id" hidden />
                                             <div id="notification-container"></div>
                                             <div id="paypal-button-container"></div>
+                                            
                                         </td>
                                     </tr>
                                 </div><!-- End .summary -->
@@ -536,29 +537,43 @@
     </div><!-- End .modal-dialog -->
 </div><!-- End .modal -->
 <script src="https://www.paypal.com/sdk/js?client-id=@(ViewBag.PaypalClientId)&currency=USD"></script>
+
 <script>
     let paypalButton = paypal.Buttons({
+        onInit: function (data, actions) {
+            // Disable the buttons
+            actions.disable();
+            // Listen for changes to the checkbox
+            const form = document.querySelector("#form-checkout");
+            form
+                .addEventListener('change', function (event) {
+                    // Enable or disable the button when it is checked or unchecked
+                    if (form.checkValidity()) {
+                        actions.enable();
+                    } else {
+                        actions.disable();
+                    }
+                });
+        },
+        onClick() {
+            const form = document.getElementById("form-checkout");
+            console.log()
+
+            if (!form.checkValidity()) {
+                form.querySelector("button[type='submit']")?.click();
+            }
+        },
         createOrder: function (data, actions) {
-            fetch("/Customer/GioHang/PaypalCheckout", {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    amount: document.getElementById("totalAmount").innerText
-                })
-            }).then(res => res.json())
-                .then(data => data)
-                .catch(err => console.log(err)); 
-
-
             return fetch("/Checkout/CreateOrder", {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    amount: document.getElementById("totalAmount").innerText
+                    amount: document.getElementById("totalAmount").innerText,
+                    address: document.getElementById("address")?.value || "",
+                    name: document.getElementById("firs-name")?.value || "" + " " + document.getElementById("last-name")?.value || "",
+                    phone_number: document.getElementById("phone-number")?.value || "",
                 })
             }).then(function (res) {
                 return res.json();
@@ -566,6 +581,8 @@
                 if (orderData && orderData.id && document.getElementById("order_id")) {
                     document.getElementById("order_id").value = orderData.id
                 }
+
+                return orderData.id;
             });
         },
         // Thành công
@@ -611,15 +628,15 @@
                     </div>
                 `
 
-            //return fetch('/Checkout/CancelOrder', {
-            //    method: 'post',
-            //    headers: {
-            //        'Content-Type': 'application/json'
-            //    },
-            //    body: JSON.stringify({
-            //        orderId: data.orderID
-            //    })
-            //})
+            return fetch('/Checkout/CancelOrder', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    orderID: document.getElementById("order_id")?.value
+                })
+            })
         },
 
         // Lỗi
@@ -630,6 +647,16 @@
                         <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                     </div>
                 `
+
+            return fetch('/Checkout/ErrorOrder', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    orderID: document.getElementById("order_id")?.value
+                })
+            })
         }
     });
 

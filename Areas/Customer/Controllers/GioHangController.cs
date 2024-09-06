@@ -211,10 +211,7 @@ namespace Demo.Areas.Customer.Controllers
             // xóa thông tin trong giỏ hàng
             _db.GioHang.RemoveRange(giohang.DsGioHang);
             _db.SaveChanges();
-            return new JsonResult(new
-            {
-                orderId = giohang.HoaDon.Id
-            });
+            return new JsonResult(giohang.HoaDon.Id);
         }
 
         public IActionResult Checkout()
