@@ -557,14 +557,14 @@
         },
         onClick() {
             const form = document.getElementById("form-checkout");
-            console.log()
+            console.log("click")
 
             if (!form.checkValidity()) {
                 form.querySelector("button[type='submit']")?.click();
             }
         },
-        createOrder: function (data, actions) {
-            return fetch("/Checkout/CreateOrder", {
+        createOrder: async function () {
+            const res = await fetch("/Checkout/CreateOrder", {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -572,18 +572,16 @@
                 body: JSON.stringify({
                     amount: document.getElementById("totalAmount").innerText,
                     address: document.getElementById("address")?.value || "",
-                    name: document.getElementById("firs-name")?.value || "" + " " + document.getElementById("last-name")?.value || "",
+                    name: (document.getElementById("first-name")?.value || "") + " " + (document.getElementById("last-name")?.value || ""),
                     phone_number: document.getElementById("phone-number")?.value || "",
                 })
-            }).then(function (res) {
-                return res.json();
-            }).then(function (orderData) {
+            });
+
+            const orderData = await res.json()
                 if (orderData && orderData.id && document.getElementById("order_id")) {
                     document.getElementById("order_id").value = orderData.id
                 }
-
-                return orderData.id;
-            });
+            return orderData.orderId;
         },
         // Thành công
         onApprove: function (data, actions) {
@@ -594,7 +592,8 @@
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    orderID: document.getElementById("order_id")?.value
+                    orderID: data.orderID,
+                    hoadonID: document.getElementById("order_id")?.value 
                 })
             }).then(function (res) {
                 return res.json();
@@ -648,15 +647,19 @@
                     </div>
                 `
 
-            return fetch('/Checkout/ErrorOrder', {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    orderID: document.getElementById("order_id")?.value
+            if (document.getElementById("order_id")?.value?.toString()) {
+
+                return fetch('/Checkout/ErrorOrder', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderID: document.getElementById("order_id")?.value
+                    })
                 })
-            })
+            }
+
         }
     });
 
