@@ -50,7 +50,7 @@ namespace Demo.Controllers
 
             if (deliveryAddress == null || deliveryPhoneNumber == null || totalAmount == null || deliveryName == null)
             {
-                return new JsonResult(new {Id = ""});
+                return new JsonResult(new {Id = "", OrderId = ""});
             }
 
             // create the request body
@@ -74,6 +74,7 @@ namespace Demo.Controllers
             string url = PaypalUrl + "/v2/checkout/orders";
 
             string orderId = "";
+            string hoadonId = "";
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
@@ -105,9 +106,6 @@ namespace Demo.Controllers
                     }
                 }
             }
-
-            // Handle form submission
-
 
             //lấy thông tin tài khoản
             var identity = (ClaimsIdentity)User.Identity;
@@ -158,9 +156,11 @@ namespace Demo.Controllers
             // xóa thông tin trong giỏ hàng
             _db.GioHang.RemoveRange(giohang.DsGioHang);
             _db.SaveChanges();
+
             var response = new
             {
-                Id = giohang.HoaDon.Id
+                Id = giohang.HoaDon.Id,
+                OrderId = orderId
             };
 
             return new JsonResult(response);
@@ -170,9 +170,10 @@ namespace Demo.Controllers
         [HttpPost]
         public async Task<JsonResult> CompletedOrder([FromBody] JsonObject data)
         {
-            if (data == null || data["orderID"] == null) return new JsonResult("error");
+            if (data == null || data["orderID"] == null || data["hoadonID"] == null) return new JsonResult("error");
 
             var orderId = data["orderID"]!.ToString();
+            var hoadonId = data["hoadonID"]!.ToString();
 
             //
             string accessToken = await GetPaypalAccessToken();
@@ -208,9 +209,9 @@ namespace Demo.Controllers
                             var identity = (ClaimsIdentity)User.Identity;
                             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
                             //cập nhật thông tin danh sách giỏ hàng và hóa đơn
-                            var hoadong = _db.HoaDon.Where(hd => hd.Id.ToString() == orderId).ToList();
+                            var hoadon = _db.HoaDon.Where(hd => hd.Id.ToString() == hoadonId).ToList();
 
-                            hoadong[0].OrderStatus = "Đã thanh toán";
+                            hoadon[0].OrderStatus = "Đã thanh toán";
 
                             _db.SaveChanges();
                             return new JsonResult("success");
