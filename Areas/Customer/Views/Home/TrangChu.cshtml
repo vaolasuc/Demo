@@ -26,7 +26,7 @@
         <h1>ACTION GAMES</h1>
         <form asp-action="Index" method="get">
             <input type="text" name="searchString" placeholder="Tìm Kiếm ở đây..." id="txtSearch" class="form-control m-1 float-end" style="width:50%;" value="@ViewData["Getemployeedetails"]" />
-            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            @* <button type="submit" class="btn btn-primary">Tìm kiếm</button> *@
         </form>
         <br>
         @* ---------------------------------------------------------------*@
@@ -170,4 +170,6 @@
 </div>
  
     
-
+@section scripts {
+    <script src="/js/site.js"></script>
+}

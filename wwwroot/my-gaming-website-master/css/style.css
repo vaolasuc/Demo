@@ -10,9 +10,9 @@ body{
     font-family: 'Poppins', sans-serif;
     
 }
+
 .container{
     width: 100%;
-    
     background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(../images/b.jpg);
     background-size: cover;
     background-position: center;
@@ -25,7 +25,74 @@ header{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 1000; /* Ensure it stays on top of other content */
+    top: 0; /* Align it to the top of the page */
+    left: 0;
+    padding:10px; /* Add padding for better spacing on mobile */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Optional shadow for better visibility */
+    background-color: rgba(0, 0, 0, 0.8); /* Darker background for better contrast */
 }
+.header-summary {
+    position: relative; /* Đặt vị trí tương đối để tạo điều kiện cho dropdown */
+}
+
+.header-summary summary {
+    cursor: pointer; /* Hiển thị con trỏ chuột dạng tay khi di chuột qua */
+    background: rgba(0, 0, 0, 0.5); /* Màu nền cho phần điều khiển tóm tắt */
+    padding: 10px; /* Thêm khoảng đệm cho phần tóm tắt */
+    font-weight: bold;
+    border-radius: 5px; /* Bo tròn các góc của phần tóm tắt */
+    list-style: none; /* Xóa kiểu danh sách mặc định (nếu dùng) */
+    outline: none; /* Xóa đường viền mặc định */
+    color: #fff; /* Màu chữ */
+    font-family: 'Poppins', sans-serif; /* Áp dụng font chữ của trang */
+    transition: background 0.3s ease, color 0.3s ease; /* Hiệu ứng chuyển màu nền và chữ khi hover */
+}
+
+/* Ẩn hình tam giác mặc định trong các trình duyệt WebKit (như Chrome, Safari) */
+.header-summary summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Cấu hình cho nội dung dropdown */
+.header-summary p {
+    display: none; /* Ẩn nội dung khi không hover */
+    background: rgba(0, 0, 0, 0.7); /* Nền tối hơn cho nội dung dropdown */
+    padding: 10px; /* Khoảng đệm cho nội dung */
+    border-radius: 5px; /* Bo tròn các góc của nội dung dropdown */
+    margin: 0; /* Xóa margin để căn chỉnh tốt hơn */
+    position: absolute; /* Đặt vị trí tuyệt đối để nó hiện lên bên dưới summary */
+    top: 100%; /* Đặt nội dung nằm ngay dưới phần summary */
+    left: 0; /* Đặt nội dung bắt đầu từ phía bên trái */
+    width: 200px; /* Điều chỉnh chiều rộng theo nhu cầu */
+    z-index: 1000; /* Đặt z-index cao để nội dung luôn nằm trên các phần tử khác */
+    color: #fff; /* Màu chữ của nội dung dropdown */
+    font-family: 'Poppins', sans-serif; /* Áp dụng font chữ của trang */
+    
+}
+
+/* Hiển thị nội dung khi hover vào phần summary */
+.header-summary:hover p {
+    display: block;
+    opacity: 1; /* Đảm bảo nội dung được hiển thị */
+}
+
+/* Thay đổi màu nền và màu chữ khi di chuột qua phần tóm tắt */
+.header-summary summary:hover {
+    color: #FEC53A; /* Màu chữ khi hover (đen) để nổi bật */
+}
+
+/* Media Queries cho các thiết bị di động */
+@media (max-width: 768px) {
+    .header-summary summary {
+        font-size: 14px; /* Kích thước chữ nhỏ hơn trên thiết bị di động */
+    }
+
+    .header-summary p {
+        width: 150px; /* Điều chỉnh chiều rộng cho thiết bị di động */
+    }
+}
+
 .logo{
     width: 300px;
     height: 10vh;
@@ -63,6 +130,7 @@ ul.navbar li a.active{
 }
 ul.navbar li a:hover:not(.active){
     color: #FEC53A;
+    
 }
 #btn{
     width: 250px;
@@ -445,7 +513,7 @@ footer{
     justify-content: space-around;
 }
 .footer-logo{
-    height: 12vh;
+    height: 20vh;
     background-color: #FEC53A;
     color: #000;
     line-height: 1.7rem;

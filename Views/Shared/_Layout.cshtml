@@ -46,6 +46,15 @@
 	<!-- test-->
 	<link href="~/my-gaming-website-master/css/all.min.css" rel="stylesheet" />
 	<link href="~/my-gaming-website-master/css/style.css" rel="stylesheet" />
+	<!-- Header của bài cuối kì-->
+	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://kit.fontawesome.com/1a8c6dd550.js" crossorigin="anonymous"></script>
+	<meta charset="utf-8">
+	
+	<link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 
 <body>
@@ -86,27 +95,24 @@
 	<header>
 		<a href="/Customer/Home/TrangChu">
 		<div  class="logo">
-
 				<i class="fas fa-gamepad"></i>
 					<p>The Game Zone</p>
-				
 		</div>
 		</a>
-
-		<ul class="navbar" style="text-align:center;color:white">
-			<li><a href="#" class="active">XBOX</a></li>
+		<ul class="navbar" style="text-align:center;color:white;">
+			<li><a href="#" >XBOX</a></li>
 			<li><a href="#">ARCADE</a></li>
 			<li><a href="#">FIFA 21</a></li>
 			<li><a href="#">PES 4</a></li>
-			<li><a href="#">NINTEDO</a></li>
-			<li><a href="#">NBA MATCH</a></li>
-			
+			<li>
+				<details class="header-summary">
+					<summary>Summary</summary>
+					<p>Summary text goes here. Provide a brief description or message.</p>
+				</details>
+			</li>					
 				<partial name="_LoginPartial"  />
-			<li><a class="nav-link" href="/Customer/Home/Details"></a></li>
-			
-			
-		</ul>
-		
+			<li><a class="nav-link" href="/Customer/Home/Details"></a></li>			
+		</ul>		
 		<button type="button" id="btn"><i class="fas fa-play"></i>PLAY NOW</button>
 	</header>
 
