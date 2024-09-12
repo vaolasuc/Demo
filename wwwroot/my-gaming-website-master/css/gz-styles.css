@@ -4,6 +4,8 @@
 
 .gz-header {
   background-image: -webkit-linear-gradient(0deg, #137fc5 8%, #ff2851 89%);
+  position: sticky;
+  top: 0;
 }
 
 .gz-logo {
