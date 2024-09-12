@@ -1,0 +1,38 @@
+:root {
+  --white-color: #fff;
+}
+
+.gz-header {
+  background-image: -webkit-linear-gradient(0deg, #137fc5 8%, #ff2851 89%);
+}
+
+.gz-logo {
+  min-width: 300px;
+  aspect-ratio: 300/91;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.gz-logo p {
+  color: var(--white-color);
+  font-size: 20px;
+  max-width: 130px;
+  line-height: 1;
+}
+
+.gz-logo i {
+  font-size: 50px;
+  color: var(--white-color);
+}
+
+.gz-navbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.gz-navbar li {
+  padding: 10px 24px;
+}
