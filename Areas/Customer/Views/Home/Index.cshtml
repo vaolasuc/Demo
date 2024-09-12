@@ -3,10 +3,10 @@
 }
 
 @*<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <img SRC ="../images/person_1.JPG" />
-    
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1 class="display-4">Welcome</h1>
+<img SRC ="../images/person_1.JPG" />
+
+<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
 @ViewBag.Nghia
@@ -26,24 +26,36 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in @Model)
+            @if (Model.Count() == 0)
             {
                 <tr>
-                    <td class="col-sm-2">@item.Name</td>
-                    <td class="col-sm-2">@item.Description</td>
-                    <td class="col-sm-2">@item.Price</td>
-                    <td class="col-sm-2">
-                        <a asp-action="Details" asp-route-sanphamId="@item.Id">
-                            <img src="@item.ImageUrl" width="50%" alt="Product image" class="product-image"></img>
-                        </a>
-                    </td>
-                    <td class="col-sm-2">@item.TheLoai.Name</td>
-                    <h3 class="product-title">
-                        <a asp-action="Details" asp-route-sanphamId="@item.Id">@item.Name</a>
-                    </h3>
+                    <td colspan="5">Không có sản phẩm nào</td>
                 </tr>
             }
-            
+            else
+            {
+                @foreach (var item in @Model)
+                {
+                    <tr>
+                        <td class="col-sm-2">
+                            <a asp-action="Details" asp-route-sanphamId="@item.Id">@item.Name</a>
+                        </td>
+                        <td class="col-sm-2">@item.Description</td>
+                        <td class="col-sm-2">@item.Price</td>
+                        <td class="col-sm-2">
+                            <a asp-action="Details" asp-route-sanphamId="@item.Id">
+                                <img src="@item.ImageUrl" width="50%" alt="Product image" class="product-image"></img>
+                            </a>
+                        </td>
+                        <td class="col-sm-2">@item.TheLoai.Name</td>
+                        @* <h3 class="product-title">
+                <a asp-action="Details" asp-route-sanphamId="@item.Id">@item.Name</a>
+                </h3> *@
+                    </tr>
+                }
+            }
+
+
         </tbody>
     </table>
 </div>

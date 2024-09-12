@@ -18,11 +18,28 @@ namespace Demo.Areas.Customer.Controllers
             _logger = logger;
             _db = db;
         }
-        public IActionResult Index()
+
+        //Get search key word from url
+    public IActionResult Index(
+            string searchString
+            )
         {
-            IEnumerable<SanPham> sanPhams = _db.SanPham.Include(sp =>sp.TheLoai).ToList();
-            return View(sanPhams);
+            //Filter products by name or category
+            var products = _db.SanPham.Include(sp => sp.TheLoai).ToList();
+
+            //Search by keyword
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(p => p.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase) || p.TheLoai.Name.Contains(searchString,StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            return View(products);
         }
+        // )
+        // {
+        //     IEnumerable<SanPham> sanPhams = _db.SanPham.Include(sp =>sp.TheLoai).ToList();
+        //     return View(sanPhams);
+        // }
 
 
 
