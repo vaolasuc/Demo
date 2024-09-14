@@ -137,7 +137,15 @@ namespace Demo.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            // check role to set return url
+            if(Input.Role == "Admin")
+            {
+                returnUrl = Url.Content("~/Admin/DonHang/Index");
+            }
+            else
+            {
+                returnUrl = Url.Content("~/");
+            }
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();        
             if (ModelState.IsValid)
             {
@@ -147,17 +155,18 @@ namespace Demo.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.Name = Input.Name;
                 user.Address = Input.Address;
+                
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    if(result.Succeeded)
-                    {
-                        await _userManager.AddToRoleAsync(user, "User");
-                    }
-                    else
-                    {
-                        await _userManager.AddToRoleAsync(user, Input.Role);
-                    }
+                    // if(result.Succeeded)
+                    // {
+                    //     await _userManager.AddToRoleAsync(user, "User");
+                    // }
+                    // else
+                    // {
+                        await _userManager.AddToRoleAsync(user, Input.Role ?? "User");
+                    // }
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
