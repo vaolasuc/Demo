@@ -38,3 +38,9 @@
 .gz-navbar li {
   padding: 10px 24px;
 }
+
+.gz-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
